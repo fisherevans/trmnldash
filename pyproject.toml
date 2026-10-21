@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "trmnldash"
-version = "1.7.1"
+version = "1.7.2"
 description = "TRMNL dashboard suite: composable panels rendered to e-ink PNGs. First panel is a 1872x1404 16-grey weather dash for the 10.3\" TRMNL X."
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 authors = [{ name = "Fisher Evans", email = "fisher@fisherevans.com" }]
 dependencies = [
     "playwright>=1.44",
