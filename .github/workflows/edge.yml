@@ -5,6 +5,13 @@ name: edge
 on:
   push:
     branches: [main]
+  # Weekly rebuild of the default branch on a fresh base (nottingham-cloud#800).
+  # Publishes only the rolling tags (:edge/:sha-*); a version tag
+  # is never rebuilt, so a pinned deploy cannot move. See
+  # nottingham-cloud agent/app-contract.md.
+  workflow_dispatch:
+  schedule:
+    - cron: '51 9 * * 6'
 
 permissions:
   contents: read
@@ -28,6 +35,10 @@ jobs:
         with:
           context: .
           push: true
+          # Scheduled and manual rebuilds skip the layer cache and re-pull the
+          # base, or a cached `apk add`/`apt-get install` layer keeps the stale package.
+          pull: true
+          no-cache: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
           platforms: linux/amd64
           tags: |
             ghcr.io/${{ github.repository_owner }}/trmnldash:edge
